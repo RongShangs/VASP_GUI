@@ -41,14 +41,15 @@ npm install
 ### 开发模式
 
 ```bash
-# 终端1: 启动后端 (端口 1691)
+# 方式1: 单端口运行（推荐）
 cd backend && python main.py
+# 浏览器访问 http://localhost:1691（后端同时提供前端静态文件）
 
-# 终端2: 启动前端 (端口 5173)
-cd frontend && npm run dev
+# 方式2: 前后端分离（前端热重载）
+# 终端1: cd backend && python main.py      (后端 1691)
+# 终端2: cd frontend && npm run dev        (前端 5173)
 ```
-
-浏览器访问 `http://localhost:5173`，首次启动会自动生成 `config.yaml` 配置文件。
+首次启动会自动生成 `backend/config.yaml` 配置文件。
 
 ### Docker 部署
 
@@ -78,52 +79,48 @@ docker-compose up -d
 - **后端测试套件** — pytest 单元测试覆盖所有 VASP 解析器
 - **自动重连** — 刷新页面自动连接上次服务器和工作目录
 
-详细开发计划见 [DEVELOPMENT_PLAN.md](../DEVELOPMENT_PLAN.md)。
-
 ## 项目结构
 
 ```
-VASP_GUI/
-├── DEVELOPMENT_PLAN.md       # 详尽开发计划
-├── 项目初期计划书.txt         # 原始计划书
-├── project_001/
-│   ├── README.md             # 本文件
-│   ├── docker-compose.yml    # Docker 部署配置
-│   ├── Dockerfile            # 后端 Docker 镜像
-│   ├── Makefile              # 开发/构建快捷命令
-│   ├── backend/              # FastAPI 后端
-│   │   ├── main.py           # 应用入口 (WebSocket + SPA 托管)
-│   │   ├── config.yaml       # 自动生成的配置文件
-│   │   ├── requirements.txt  # Python 依赖清单
-│   │   ├── data/             # SQLite 数据库文件
-│   │   └── app/
-│   │       ├── config.py     # 全局配置加载
-│   │       ├── database.py   # SQLAlchemy 引擎
-│   │       ├── middleware.py # 速率限制中间件
-│   │       ├── api/          # REST API 路由 (auth/servers/files/jobs/...)
-│   │       ├── ws/           # WebSocket 路由 (console/chart/status/terminal)
-│   │       ├── models/       # 数据库 ORM 模型
-│   │       ├── schemas/      # Pydantic 请求/响应 Schema
-│   │       ├── services/     # 业务逻辑层 (SSH/SFTP/VASP解析/模板/任务)
-│   │       └── utils/        # 工具函数 (日志/校验/文件)
-│   └── frontend/             # React 前端
-│       ├── index.html
-│       ├── package.json
-│       └── src/
-│           ├── main.tsx      # React 入口
-│           ├── App.tsx       # 根组件 (路由 + 主题)
-│           ├── i18n.ts       # 国际化 (190+ keys 中英双语)
-│           ├── api/          # API 调用层 (axios)
-│           ├── store/        # Zustand 状态管理 (6 stores)
-│           ├── hooks/        # 自定义 Hooks (WebSocket/Auth/FileTree)
-│           ├── types/        # TypeScript 类型定义
-│           ├── styles/       # 样式 (全局 CSS + Ant Design 主题)
-│           └── components/
-│               ├── layout/   # 布局组件 (Header/MainLayout/StatusBar)
-│               ├── left-panel/   # 左侧面板 (MiniTerminal/状态卡)
-│               ├── center-panel/ # 中间面板 (文件列表/查看器/编辑器)
-│               ├── right-panel/  # 右侧面板 (计算卡片/运行监控)
-│               └── dialogs/      # 对话框 (登录/服务器管理/设置/任务参数)
+├── README.md                 # 本文件
+├── docker-compose.yml        # Docker 部署配置
+├── Dockerfile                # 后端 Docker 镜像
+├── nginx.conf                # Nginx 反向代理
+├── Makefile                  # 开发/构建快捷命令
+├── backend/                  # FastAPI 后端
+│   ├── main.py               # 应用入口 (WebSocket + SPA 托管)
+│   ├── config.yaml           # 自动生成的配置文件
+│   ├── requirements.txt      # Python 依赖清单
+│   ├── data/                 # SQLite 数据库文件
+│   └── app/
+│       ├── config.py         # 全局配置加载
+│       ├── database.py       # SQLAlchemy 引擎
+│       ├── middleware.py     # 速率限制中间件
+│       ├── api/              # REST API 路由
+│       ├── ws/               # WebSocket 路由
+│       ├── models/           # 数据库 ORM 模型
+│       ├── schemas/          # Pydantic 请求/响应 Schema
+│       ├── services/         # 业务逻辑层
+│       └── utils/            # 工具函数
+└── frontend/                 # React 前端
+    ├── index.html
+    ├── package.json
+    └── src/
+        ├── main.tsx          # React 入口
+        ├── App.tsx           # 根组件 (路由 + 主题)
+        ├── i18n.ts           # 国际化 (220+ keys 中英双语)
+        ├── api/              # API 调用层
+        ├── store/            # Zustand 状态管理
+        ├── hooks/            # 自定义 Hooks
+        ├── types/            # TypeScript 类型定义
+        ├── styles/           # 样式
+        └── components/
+            ├── layout/       # 布局组件
+            ├── left-panel/   # 左侧面板
+            ├── center-panel/ # 中间面板
+            ├── right-panel/  # 右侧面板
+            ├── dialogs/      # 对话框
+            └── postprocess/  # 后处理图表
 ```
 
 ## API 端点一览
