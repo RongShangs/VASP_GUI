@@ -1,0 +1,110 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body, #root { height: 100%; width: 100%; overflow: hidden; }
+body { font-family: 'Inter', 'SF Pro', -apple-system, sans-serif; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #555; border-radius: 3px; }
+.vasp-layout { display: flex; flex-direction: column; height: 100vh; }
+.vasp-body { display: flex; flex: 1; overflow: hidden; }
+.vasp-header { height: 40px; display: flex; align-items: center; padding: 0 12px;
+  border-bottom: 1px solid #333; justify-content: space-between; background: #1a1a2e; }
+.vasp-header-left { display: flex; align-items: center; gap: 12px; color: #e0e0e0; font-weight: 600; }
+.vasp-header-right { display: flex; align-items: center; gap: 8px; }
+.vasp-statusbar { height: 24px; display: flex; align-items: center; padding: 0 12px;
+  border-top: 1px solid #333; background: #16213e; color: #888; font-size: 11px; gap: 16px; }
+.left-panel { width: 280px; border-right: 1px solid #333; display: flex; flex-direction: column;
+  background: #1a1a2e; transition: width 0.2s; overflow: hidden; }
+.left-panel.collapsed { width: 48px; }
+.center-panel { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: #0f0f23; }
+.right-panel { width: 360px; border-left: 1px solid #333; display: flex; flex-direction: column;
+  background: #1a1a2e; transition: width 0.2s; overflow-y: auto; }
+.right-panel.collapsed { width: 0; }
+.file-row { cursor: pointer; padding: 2px 8px; display: flex; align-items: center; gap: 6px;
+  font-size: 12px; color: #c0c0c0; border-radius: 2px; }
+.file-row:hover { background: #2a2a4a; }
+.file-row.selected { background: #3a3a6a; }
+.editor-tabs { display: flex; background: #16162a; border-bottom: 1px solid #333; min-height: 28px; }
+.editor-tab { padding: 4px 12px; font-size: 11px; color: #888; cursor: pointer; border-right: 1px solid #333;
+  display: flex; align-items: center; gap: 6px; }
+.editor-tab.active { color: #fff; background: #0f0f23; border-bottom: 1px solid #528bff; }
+.editor-tab .dirty::after { content: ' •'; color: #ffcc00; }
+.editor-content { flex: 1; overflow: hidden; }
+.status-card { padding: 8px 12px; border-bottom: 1px solid #2a2a4a; }
+.status-card h4 { font-size: 10px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.status-card .value { font-size: 13px; color: #e0e0e0; }
+.status-indicator { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+.status-indicator.online { background: #4caf50; }
+.status-indicator.offline { background: #f44336; }
+/* Left panel collapse overrides */
+.left-panel .ant-collapse-header { padding: 4px 12px !important; align-items: center !important; }
+.left-panel .ant-collapse-content-box { padding: 0 !important; }
+.left-panel .ant-collapse-item { border-bottom: 1px solid #2a2a4a !important; }
+/* Smooth scroll for terminal */
+.xterm-viewport::-webkit-scrollbar { width: 4px; }
+.xterm-viewport::-webkit-scrollbar-thumb { background: #444; border-radius: 2px; }
+.form-control { margin-bottom: 8px; }
+.form-control label { display: block; font-size: 11px; color: #888; margin-bottom: 2px; }
+.card-grid { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px; }
+.calc-card { width: calc(33.33% - 4px); padding: 8px; background: #16213e; border-radius: 6px;
+  cursor: pointer; border: 1px solid #2a2a4a; transition: all 0.15s; }
+.calc-card:hover { border-color: #528bff; background: #1e2a4e; }
+.calc-card .icon { font-size: 18px; }
+.calc-card .label { font-size: 11px; color: #c0c0c0; margin-top: 2px; }
+.calc-card .desc { font-size: 9px; color: #666; }
+.category-collapse { border-bottom: 1px solid #2a2a4a; }
+.category-header { padding: 8px 12px; cursor: pointer; display: flex; align-items: center;
+  gap: 8px; color: #e0e0e0; font-size: 13px; font-weight: 500; }
+.category-header:hover { background: #222240; }
+
+/* ── VASP-specific styles ─────────────────────────────────── */
+/* File type badges in file list */
+.vasp-badge { display: inline-block; padding: 0 4px; border-radius: 2px;
+  font-size: 9px; font-weight: 600; margin-right: 4px; }
+.vasp-badge.incar { background: #1a3a5c; color: #64b5f6; }
+.vasp-badge.poscar { background: #1a3c2e; color: #66bb6a; }
+.vasp-badge.potcar { background: #3c2e1a; color: #ffa726; }
+.vasp-badge.kpoints { background: #2e1a3c; color: #ab47bc; }
+.vasp-badge.oscicar { background: #1a2e3c; color: #26c6da; }
+.vasp-badge.outcar { background: #2a2a3c; color: #90a4ae; }
+
+/* Viewer panel layout */
+.viewer-container { display: flex; flex-direction: column; height: 100%; }
+.viewer-header { padding: 8px 12px; border-bottom: 1px solid #2a2a4a;
+  display: flex; align-items: center; justify-content: space-between; }
+.viewer-body { flex: 1; overflow: auto; padding: 8px; }
+.viewer-footer { padding: 6px 12px; border-top: 1px solid #2a2a4a;
+  display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
+
+/* Param table in IncarViewer */
+.param-table-row { display: flex; align-items: center; padding: 4px 0;
+  border-bottom: 1px solid #1a1a2e; font-size: 12px; }
+.param-table-row.header { color: #666; font-size: 10px; text-transform: uppercase; }
+.param-col-tag { width: 120px; color: #64b5f6; font-family: monospace; font-weight: 600; }
+.param-col-desc { flex: 1; color: #c0c0c0; }
+.param-col-value { width: 160px; color: #e0e0e0; }
+
+/* Energy chart container */
+.energy-chart-wrap { height: 200px; min-height: 150px; }
+
+/* Breadcrumb / path nav */
+.breadcrumb-path { display: flex; align-items: center; gap: 4px;
+  padding: 4px 8px; font-size: 12px; color: #888; cursor: pointer; }
+.breadcrumb-path .segment:hover { color: #528bff; text-decoration: underline; }
+.breadcrumb-path .separator { color: #555; }
+
+/* Progress bar in runtime monitor */
+.runtime-progress { padding: 8px 12px; }
+.runtime-progress .label { font-size: 10px; color: #666; display: flex;
+  justify-content: space-between; margin-bottom: 2px; }
+
+/* Connection status dot */
+.conn-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.conn-dot.online { background: #4caf50; box-shadow: 0 0 6px rgba(76, 175, 80, 0.4); }
+.conn-dot.connecting { background: #ffc107; animation: pulse 1s infinite; }
+.conn-dot.offline { background: #f44336; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+/* Editable INCAR cells */
+.editable-cell { padding: 2px 4px; border-radius: 2px; transition: background 0.15s; }
+.editable-cell:hover { background: rgba(82, 139, 255, 0.12); }
+

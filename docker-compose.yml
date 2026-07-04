@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  vasp-gui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "1691:1691"
+    volumes:
+      - ./backend/data:/app/backend/data
+    restart: unless-stopped

@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+.eggs/
+venv/
+*.db
+*.log
+
+# Node
+node_modules/
+frontend/dist/
+
+# IDE
+.vscode/
+.idea/
+
+# Config (contains secrets)
+backend/config.yaml
+backend/data/
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,5 @@
+Intel(R) Parallel Studio XE 2020 Update 1 for Linux*
+Copyright (C) 2009-2020 Intel Corporation. All rights reserved.
+whoami: cannot find name for user ID 1007
+[mpiexec@node1] mpiexec_get_parameters (../../../../../src/pm/i_hydra/mpiexec/mpiexec_params.c:1439): no executable specified
+[mpiexec@node1] main (../../../../../src/pm/i_hydra/mpiexec/mpiexec.c:1771): error parsing parameters
