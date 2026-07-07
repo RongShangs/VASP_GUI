@@ -98,6 +98,9 @@ docker-compose up -d
 - **Docker 生产部署** — docker-compose + Nginx 反向代理 + WebSocket 代理
 - **后端测试套件** — pytest 单元测试覆盖所有 VASP 解析器
 - **自动重连** — 刷新页面自动连接上次服务器和工作目录
+<img width="1697" height="974" alt="3D展示截图" src="https://github.com/user-attachments/assets/1bfcf784-4d53-4f65-94d3-c53d5f09a169" />
+<img width="1698" height="975" alt="更多功能展示截图" src="https://github.com/user-attachments/assets/f394b4b4-445e-4cff-a7b6-50fe3f5156de" />
+
 
 ## 项目结构
 
